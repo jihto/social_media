@@ -6,6 +6,18 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+First run: 
+
+### `cd .\client\`
+
+Second:
+
+### `npm init` 
+
+To install node_modules and package-lock
+
+After that:
+
 ### `npm start`
 
 Runs the app in the development mode.\
