@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { styled } from '@mui/material/styles';
+import { useState } from 'react'; 
 import * as React from 'react';  
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -9,22 +8,26 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import {useDispatch } from 'react-redux';  
-import LinearProgress from '@mui/material/LinearProgress';
+import {useDispatch } from 'react-redux';   
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import TwitterIcon from '@material-ui/icons/Twitter';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import FacebookIcon from '@material-ui/icons/Facebook';
 
-import { Button, CssBaseline} from "@material-ui/core";
-
-
+import { CssBaseline} from "@material-ui/core";  
+import useStyle, {ButtonPrevNext, CustomButtonIcon} from './styles';
 import { useSelector } from 'react-redux';
 import { useForm } from "react-hook-form";
 import { loginUser, registerUser } from 'actions/auth';
-import { Container } from '@mui/system';
+import { Container } from '@mui/system'; 
+import { CustomButton, LinearDeterminate } from 'constants';
 
-export default function Login() { 
+export default function AuthPage() { 
   const loading = useSelector((state) => state.auth.loading);
   const messageRes = useSelector(state => state.auth.message); 
-   const dispatch = useDispatch()
-  
+  const dispatch = useDispatch()
+  const classes = useStyle();
   const [isSignUp,setIsSignUp] = useState(true); 
   const [check,setCheck] = useState({confirmPassword:"" ,state:false});
 
@@ -48,12 +51,47 @@ export default function Login() {
     setIsSignUp(!isSignUp) 
     setCheck({...check,state:false})
   } 
+  const [changeButton, setChangeButton] = useState(0);
+  const colorBackgroud = ["whitesmoke", "#1672ea", "#00a6e6", "black"];
+  const colorText = ["black", "white","white","white"];
   return (
     <Container>
-      <Grid container component="main" sx={{marginTop:`${isSignUp ? "10%" : "8%"}`, }}>
+      <Grid container component="main" sx={{marginTop:`${isSignUp ? "10%" : "8%"}`,}}>
         <CssBaseline />
-        <Grid item xs={false} sm={4} md={7}></Grid>
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} sx={{borderRadius:"15px"}}>
+        <Grid item xs={12} sm={4} md={7} component={Paper} elevation={6} className={classes.boxCard}
+        style={{backgroundColor: colorBackgroud[changeButton], borderRadius:'15px 0 0 15px'}}>
+          <Box >
+            <Typography variant='h5' sx={{padding:"10% 10% 45% 10%",color: colorText[changeButton]}}>Sign In with:</Typography>
+            <ButtonPrevNext onClick={()=>setChangeButton(prev => prev > 0 ? prev-1 : 3)}>
+             <NavigateBeforeIcon/> Prev 
+            </ButtonPrevNext>
+            <CustomButtonIcon className={`${classes.defaultFormat} ${changeButton === 0 ? classes.showDes : classes.hideDes}`}>
+              G
+              <span style={{color:"red"}}>o</span>
+              <span style={{color:"yellow"}}>o</span>
+              g
+              <span style={{color:"green"}}>l</span>
+              <span style={{color:"red"}}>e</span>
+            </CustomButtonIcon>
+
+            <CustomButtonIcon className={`${classes.defaultFormat} ${changeButton === 1 ? classes.showDes : classes.hideDes}`}>
+              <FacebookIcon fontSize='large'/>acebook
+            </CustomButtonIcon> 
+
+            <CustomButtonIcon className={`${classes.defaultFormat} ${changeButton === 2 ? classes.showDes : classes.hideDes}`}>
+              <TwitterIcon fontSize='large'/>Twitter
+            </CustomButtonIcon>
+
+            <CustomButtonIcon className={`${classes.defaultFormat} ${changeButton === 3 ? classes.showDes : classes.hideDes}`}>
+              <GitHubIcon fontSize='large'/>Github
+            </CustomButtonIcon>
+
+            <ButtonPrevNext onClick={()=>setChangeButton(prev => prev < 3 ? prev+1 : 0)} style={{right:0}}>
+              Next <NavigateNextIcon/>
+            </ButtonPrevNext>
+          </Box>
+        </Grid>
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} sx={{borderRadius:"0 15px 15px 0"}}>
           <Box  sx={{ my: 8, mx: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', }} >
             <Typography component="h1" variant="h5">{ isSignUp ?  'Sign In' : 'Sign Up' }</Typography>
             <Box  noValidate  sx={{ mt: 1 }}>
@@ -114,67 +152,3 @@ export default function Login() {
     </Container>
   );
 }
-
-const CustomButton = styled(Button)({
-    boxShadow: 'none',
-    textTransform: 'none',
-    fontSize: 16,
-    padding: '6px 12px',
-    border: '1px solid',
-    lineHeight: 1.5,
-    backgroundColor: 'white',
-    borderColor: 'black',
-    color: 'black',
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-    '&:hover': {
-      backgroundColor: 'black',
-      borderColor: 'white',
-      color: 'white',
-      boxShadow: 'none',
-    },
-    '&:active': {
-      boxShadow: 'none',
-      backgroundColor: 'black',
-      borderColor: 'white',
-    },
-    '&:focus': {
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
-    },
-  });
-
-  function LinearDeterminate() {
-    const [progress, setProgress] = React.useState(0);
-  
-    React.useEffect(() => {
-      const timer = setInterval(() => {
-        setProgress((oldProgress) => {
-          if (oldProgress === 100) {
-            return 0;
-          }
-          const diff = 500 * 1000;
-          return Math.min(oldProgress + diff, 100);
-        });
-      }, 500);
-  
-      return () => {
-        clearInterval(timer);
-      };
-    }, []);
-  
-    return (
-      <Box sx={{ width: '100%' }}>
-        <LinearProgress variant="determinate" value={progress} />
-      </Box>
-    );
-  }

@@ -9,20 +9,20 @@ import { useParams } from "react-router-dom";
 import addImage from 'images/add_image.png';
 import moment from 'moment';  
 import { elementNotInAnotherArray, removeItem } from 'util/HandleArray';
-import { Grid } from '@mui/material'; 
+import { Avatar, Grid } from '@mui/material'; 
 import { dataCreatePost, dataUpdatePost } from 'actions/posts';
 import { useDispatch } from 'react-redux';
 
 const FormCreatePost = ({data,create,onClosePost,handleShowMessage}) => {
-    const classes = useStyles();
+    const classes = useStyles(); 
     //Change image ui when user upload file image
     const [images, setImages] = useState(data.img || null);
     //take id from url 
     const { id } = useParams();
     const dispatch = useDispatch(); 
     //Form data to client
-    let [postData,setPostData] = useState({nameUser:id,description:data.description});
-
+    let [postData,setPostData] = useState({nameUser:id,description:data.description, dataUser:data.dataUser});
+    console.log(postData);
     // Create new Post
     const handleSubmitCreate = (e) =>{
         e.preventDefault(); 
@@ -67,8 +67,7 @@ const FormCreatePost = ({data,create,onClosePost,handleShowMessage}) => {
         handleShowMessage();  
         onClosePost(); 
     } 
-    const handleArrImage = (item) => { 
-        console.log(images)
+    const handleArrImage = (item) => {  
         let newListAvatar = removeItem(images, item); 
         setImages(newListAvatar);
     }
@@ -132,10 +131,17 @@ const FormCreatePost = ({data,create,onClosePost,handleShowMessage}) => {
                         } 
                     </Paper> 
                     </Grid>
-                    : (<div style={{margin: '5%'}}>   
-                        <Typography variant="body1">{data.description}</Typography> 
-                        <Typography variant="body2" > {moment(data.createdAt).fromNow()}</Typography> 
-                    </div> )} 
+                    : <div className={classes.infoOfPost}>   
+                        <Box sx={{display: 'flex', alignItems:"center", gap: "15%",marginBottom:'15%', flexDirection: 'column'}}> 
+                            <Avatar src={`http://localhost:5000/images/${postData.dataUser.avatar}`}/>
+                            <Typography variant='subtitle1' >{postData.dataUser.name}</Typography>
+                        </Box>
+                        <Box sx={{display: 'flex', alignItems:"center",marginBottom:'15%', flexDirection: 'column'}}> 
+                            <Typography variant="h6">{data.description}</Typography> 
+                            <Typography variant="body2" > {moment(data.createdAt).fromNow()}</Typography> 
+                        </Box>
+                    </div> 
+                } 
             </Grid>
         </>
     )

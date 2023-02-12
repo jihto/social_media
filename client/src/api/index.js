@@ -44,34 +44,33 @@ API.interceptors.response.use(
         return Promise.reject(error)
     }
 ) 
-
-export const fetchPosts = () => API.get(url + "post");
+//Authentication
 export const login = (Verification) => API.post(url + "authUser/login",Verification);
 export const register = (Verification) => API.post(url + "authUser/register",Verification);
-
-export const fetchAdmin = () => API.get(url + "admin");
+//Post
+export const fetchPosts = () => API.get(url + "post"); 
 export const fetchPostsUser = (id) => API.get(url + `post/${id}`);
+export const fetchSavePost = (id) => API.get(url + `post/dataSavePost/${id}`); 
  
 export const createPost = (NewPost) => API.post(url + 'post/create',NewPost); 
 export const updatePost = (data) => API.put(url + `post/update/${data.idPost}`,data.formData);
+export const deletedPost = (id) => API.delete(url + `post/delete/${id}`);
 export const likePost = (data) => API.put(url + "post/like",data); 
 export const unLikePost = (data) => API.put(url + "post/unLike",data); 
-export const deletedPost = (id) => API.delete(url + `post/delete/${id}`);
 export const savePost = (data) => API.post(url + "post/savePost",data);
 export const unSavePost = (data) => API.post(url + "post/unSavePost",data);
-export const fetchSavePost = (id) => API.get(url + `post/dataSavePost/${id}`); 
-
 export const hidePost = (data) => API.post(url + `post/hide/${data.idPost}`,{idUser:data.idUser}) ; 
 export const showPost = (data) => API.post(url + `post/show/${data.idPost}`,{idUser:data.idUser}) ; 
 
+//User
 export const fetchInforUser = (id) => API.get(url + `user/${id}`);
 export const fetchDataFollower = (search) => API.get(url + `user/follower?search=${search}`); 
+export const fetchProfile = () => API.get(url + "user/profile");
 export const updateAvatar = (data) => API.put(url + `user/update`,data); 
 export const followUser = (dataId) => API.put(url + "user/addFollow",dataId);
 export const unFollowUser = (dataId) => API.put(url + "user/removeFollow",dataId);
-
-export const fetchProfile = () => API.get(url + "user/profile");
 export const updateInformation = (data) => API.put(url + "user/updateInfo",data);
+
 
 //Chat Box
 export const fetchChatBox = () => API.get(url + 'chatBox');

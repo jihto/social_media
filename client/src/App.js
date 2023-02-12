@@ -4,7 +4,7 @@ import { Route, Routes,Navigate } from "react-router-dom";
   
 import HomePage from './container/Page/HomePage/HomePage';
 import UserPage from './container/Page/UserPage/UserPage'; 
-import Login from 'container/Page/LoginPage/LoginPage';
+import AuthPage from 'container/Page/Auth/AuthPage';
 import ChatBoxPage from 'container/Page/ChatBoxPage/ChatBoxPage'; 
 import Setting from 'container/Page/Setting/Setting';
 
@@ -16,12 +16,12 @@ function App() {
       <Data.Provider value={data}>
         { 
           <Routes>
-            <Route path="/" element={isAuth ? <Navigate to = "home" /> : <Login />}/>
+            <Route path="/" element={isAuth ? <Navigate to = "home" /> : <AuthPage />}/>
             <Route path="/home"  element={data ? <HomePage /> : <Navigate to = "/" />}/>  
             <Route path="/user/setting"  exact  element={<Setting />}/>
             <Route path="/user/:id" exact element={<UserPage />}/>
             <Route path="/chatBox" exact element={<ChatBoxPage />}/> 
-            <Route path="*" exact element={<Navigate to="/"/>} />
+            <Route path="*" exact element={<Navigate to="/home"/>} />
           </Routes> 
         } 
       </Data.Provider>

@@ -8,7 +8,7 @@ import TurnedInIcon from '@material-ui/icons/TurnedIn';
 import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';  
 import CollectionsIcon from '@material-ui/icons/Collections';
 import ListIcon from '@material-ui/icons/List';
-import useStyles from './styles'; 
+import useStyles, { ButtonCancel, ButtonDelete } from './styles'; 
 //Other 
 import { Data } from "App"; 
 import { savePost, unSavePost } from "api"; 
@@ -28,6 +28,7 @@ const PostOfUser = ({ postUser, handleShowMessage, value, isUser }, ref) => {
     const [editPost,setEditPost] = useState(false); //Check edit post in FormCreatePost or not
     const [showDialogDelete,setShowDialogDelete] = useState({ state: false, data: { img: defaultImage }} ); 
     const [isSave, setIsSave] = useState(true); 
+    const [showDescription, setShowDescription] = useState(false);
 
     const [showMenuOfPost, setShowMenuOfPost] = useState(null);
     const open = Boolean(showMenuOfPost); 
@@ -61,7 +62,7 @@ const PostOfUser = ({ postUser, handleShowMessage, value, isUser }, ref) => {
                 img:postUser.img,
                 description: postUser.description,
                 createdAt:postUser.createdAt,
-                _id:postUser._id
+                _id:postUser._id,
             }
         })
         isUser && setEditPost(true);
@@ -70,36 +71,42 @@ const PostOfUser = ({ postUser, handleShowMessage, value, isUser }, ref) => {
         setShowPost({...showPost,state:false});
         setEditPost(false);
         setShowMenuOfPost(null);
-    },[showPost])
+    },[showPost]);
 
-    const [showDescription, setShowDescription] = useState(false);
-    // console.log("Render POST..."); 
-    const handleOnMouseMove = async() => {
-        setShowDescription(true);
-    }  
-    const handleOnMouseLeave = async() => {
-        setShowDescription(false);
-    }
     return (
     <>{ postUser &&
         <Box> 
             {/**---Post show in ui user ----*/}
             <Card 
                 className={classes.cardPost} 
-                onMouseMove={handleOnMouseMove}
-                onMouseLeave={handleOnMouseLeave}
+                onMouseMove={()=>  setShowDescription(true)}
+                onMouseLeave={()=> setShowDescription(false)}
             >  
                 {
                     postUser.img.length > 1
-                        ?<CardContent className={classes.multipleImage}>
+                        ? <CardContent className={classes.multipleImage}>
                             <CollectionsIcon/>
-                        </CardContent>
-                        :<></>    
+                          </CardContent>
+                        : <></>    
                 }
                 <Box className={`${classes.description} ${showDescription ? classes.showDes : classes.hideDes}`}>
                     <Typography variant='h6'>{postUser.description}</Typography>
                 </Box>
-                <CardMedia className={classes.mediaPost} image={`http://localhost:5000/images/${postUser.img[0]}`} onClick={()=>setShowPost({state:true,data:{img:postUser.img,description: postUser.description,createdAt:postUser.createdAt}})}/>    
+                <CardMedia 
+                    className={classes.mediaPost} 
+                    image={`http://localhost:5000/images/${postUser.img[0]}`} 
+                    onClick={
+                        ()=>setShowPost({  
+                            state:true,
+                            data:{
+                                img:postUser.img,
+                                description: postUser.description,
+                                createdAt:postUser.createdAt, 
+                                dataUser: postUser.nameUser
+                            }
+                        })
+                    }
+                />    
                 <CardActions className={classes.cardActions}>   
                 {
                     value === "IsUser"
@@ -165,8 +172,8 @@ const PostOfUser = ({ postUser, handleShowMessage, value, isUser }, ref) => {
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleTrash}  variant="outlined" color="primary" >Delete</Button>
-                <Button onClick={()=>setShowDialogDelete({...showDialogDelete,state:false})}  variant="outlined" color="primary" autoFocus>Cancel</Button>
+                <ButtonDelete onClick={handleTrash} >Delete</ButtonDelete>
+                <Button onClick={()=>setShowDialogDelete({...showDialogDelete,state:false})} variant="contained"autoFocus>Cancel</Button>
             </DialogActions>
         </Dialog>
         {/** */}

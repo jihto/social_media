@@ -14,6 +14,10 @@ import EmailIcon from '@material-ui/icons/Email';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import TelegramIcon from '@material-ui/icons/Telegram';
 
+import { styled } from '@mui/material/styles';
+import LinearProgress from '@mui/material/LinearProgress';
+import { Button, CssBaseline} from "@material-ui/core"; 
+import Box from '@mui/material/Box';
 import { Zoom, Slide } from '@material-ui/core';
 import React from 'react';
 
@@ -104,3 +108,68 @@ export const ListNameInfo = [
 export const ListBasicInfo = [
     "phoneNumber","mail",[] 
 ]
+
+
+export const CustomButton = styled(Button)({
+    boxShadow: 'none',
+    textTransform: 'none',
+    fontSize: 16,
+    padding: '6px 12px',
+    border: '1px solid',
+    lineHeight: 1.5,
+    backgroundColor: 'white',
+    borderColor: 'darkgray',
+    color: 'black',
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:hover': {
+      backgroundColor: 'black',
+      borderColor: 'white',
+      color: 'white',
+      boxShadow: 'none',
+    },
+    '&:active': {
+      boxShadow: 'none',
+      backgroundColor: 'black',
+      borderColor: 'white',
+    },
+    '&:focus': {
+      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+    },
+  });
+
+export function LinearDeterminate() {
+    const [progress, setProgress] = React.useState(0);
+  
+    React.useEffect(() => {
+      const timer = setInterval(() => {
+        setProgress((oldProgress) => {
+          if (oldProgress === 100) {
+            return 0;
+          }
+          const diff = 500 * 1000;
+          return Math.min(oldProgress + diff, 100);
+        });
+      }, 500);
+  
+      return () => {
+        clearInterval(timer);
+      };
+    }, []);
+  
+    return (
+      <Box sx={{ width: '100%' }}>
+        <LinearProgress variant="determinate" value={progress} />
+      </Box>
+    );
+  }

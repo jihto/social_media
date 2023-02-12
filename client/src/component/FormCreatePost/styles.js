@@ -100,5 +100,12 @@ export default makeStyles((theme) => ({
     right: 0,
     fontSize: '20px',
     borderRadius: '25%'
+  },
+  infoOfPost:{
+    margin: '5%',
+    display: 'flex',
+    width: '23%',
+    height: 'fit-content',
+    justifyContent: 'space-around',
   }
 }));

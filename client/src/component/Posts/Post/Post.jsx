@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { hidePost, showPost, likePost,savePost, unLikePost, unSavePost } from "api"; 
 import moment from 'moment'; 
 //library of material ui
-import { Card, CardActions, CardContent, CardMedia, Button, Typography,Avatar, MenuItem, Menu,Divider } from '@mui/material';
+import { Card, CardActions, CardContent, CardMedia, Typography,Avatar, MenuItem, Menu,Divider } from '@mui/material';
 import EditIcon from '@material-ui/icons/Edit';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'; 
 import AttachFileIcon from '@material-ui/icons/AttachFile'; 
@@ -14,11 +14,14 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import TurnedInIcon from '@material-ui/icons/TurnedIn'; 
+
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 //other
 import { Data } from "App"; 
 import useStyles, { ButtonHide } from "./styles";
 import memories from 'images/memories.png' 
-import { Box } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 
 const Post = ({post,savePosts,id}) => {   
     const classes = useStyles();
@@ -76,29 +79,13 @@ const Post = ({post,savePosts,id}) => {
     const handleCopy = () =>{
         navigator.clipboard.writeText(`http://localhost:5000/images/${post._id}`); 
         setShowCopy(true)
-    } 
-
-    const handleWheel = (e) => {
-        if(post.img.length > 1){
-            const delta = e.deltaY;
-            console.log(delta);
-            setScrollXImage(() => {
-                if(scrollXImage !== undefined){ 
-                    const maxLength = scrollXImage.imageLength - 1;
-                    let nextMovement = scrollXImage.movement + delta;
-                    if(nextMovement < 0)
-                        nextMovement = 0;
-                    if(nextMovement > maxLength*766)
-                        nextMovement = maxLength*766;
-                    return {
-                        ...scrollXImage,
-                        movement: nextMovement
-                    }
-                }
-            })
-        }
-    } 
-    console.log(scrollXImage)
+    }  
+    const [prevNext, setPrevNext] = useState(0);
+    const handlePrevNext = (maxLength, isIncrease) =>{ 
+        isIncrease
+            ? setPrevNext(prev => prev < maxLength-1 ? prev + 1 : 0)
+            : setPrevNext(prev => prev > 0 ? prev - 1 : maxLength-1);
+    }
     return (
         <>   
             <Card className={classes.card} style={{borderRadius: '15px'}}> 
@@ -110,21 +97,34 @@ const Post = ({post,savePosts,id}) => {
                             <ButtonHide onClick={handleShowPost} style={{marginLeft:"10px"}}>Cancel</ButtonHide> 
                         </div>
                     </div>
-                    : <><Box className={classes.boxCard}> 
+                    : <>
+                        <Box className={classes.boxCard}> 
                             <Box className={classes.scrollPost}>
                                 { 
-                                    post.img.map((image, index) => (
+                                    post.img.map((image, index) => ( 
                                         <CardMedia 
                                             key={index}
                                             onMouseUp={(e)=>e.currentTarget.className = classes.media} 
                                             onMouseDown={(e)=>e.currentTarget.className = classes.hold} 
-                                            className={classes.media} 
+                                            className={classes.scrollImage} 
                                             image={`http://localhost:5000/images/${image}`}  
                                             title={post.title} 
-                                        />
+                                            style={{zIndex:`${prevNext === index ? 10 : 0}`}}
+                                        /> 
                                     )) 
                                 } 
-                            </Box>
+                                {
+                                    post.img.length > 1 && 
+                                    <>
+                                        <Button className={`${classes.buttonPrev} ${classes.bothButton}`} onClick={()=>handlePrevNext(post.img.length, true)}>
+                                            <NavigateBeforeIcon fontSize="large"/>
+                                        </Button>
+                                        <Button className={`${classes.buttonNext} ${classes.bothButton}`} onClick={()=>handlePrevNext(post.img.length, false)}>
+                                            <NavigateNextIcon fontSize="large"/>
+                                        </Button> 
+                                    </>
+                                }
+                                </Box>
                         </Box> 
                         <div className={classes.overlay}>
                             <Typography variant="h6" >{moment(post.createdAt).format('DD / MM / YYYY')}</Typography>
@@ -205,9 +205,7 @@ const Post = ({post,savePosts,id}) => {
                 }}
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-            >   
-                <MenuItem onClick={()=>navigate(`/create/post/${id}`)} disableRipple> <EditIcon /> Edit </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
+            >     
                 <MenuItem onClick={handleSave} disableRipple>
                     {isSave ?  <div style={{display:'flex'}}><TurnedInIcon />Un Save</div> : <div style={{display:'flex'}}><TurnedInNotIcon />Save</div>}
                 </MenuItem>

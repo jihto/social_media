@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles'; 
 import { styled } from "@mui/system";
 import {  Button } from '@material-ui/core';
+import { red } from '@material-ui/core/colors';
 export default makeStyles(() => ({
     cardPost:{
         borderRadius: '10px', 
@@ -61,19 +62,23 @@ export default makeStyles(() => ({
 }))
 
 
-export const ButtonElementGroupRight = styled(Button)({
-    borderRadius: ' 20px 0 0 20px',
-    borderRight: '1px solid black',
+export const ButtonDelete = styled(Button)({
+  background: '#d93333',
+  color: 'white',
+  border: 'none',
+  borderRadius: '7px', 
+  fontWeight:'bold',
   "&:hover":{
-    background: "rgba(0,0,0,0.2)",
-    color:"white"
+    background: "red", 
+    border:'none'
   }
 });
-export const ButtonElementGroupLeft = styled(Button)({
-    borderRadius: '0 20px 20px 0px',
-    borderLeft: '1px solid',
+export const ButtonCancel = styled(Button)({
+  color: 'black', 
+  borderRadius: '7px',
+  padding:' 2% 4%',
+  fontWeight:'bold',
   "&:hover":{
-    background: "rgba(0,0,0,0.2)",
-    color:"white"
+    background: "rgba(0,0,0,0.2)", 
   }
 });

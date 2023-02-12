@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import { CircularProgress,Card,Typography,TextField  } from '@material-ui/core';
 import useStyles from './styles';
 import Friend from './Friend/Friend'; 
@@ -10,6 +10,7 @@ import { Data } from "App";
 const ListFriend = ({search,data,setSearch}) => {
     const classes = useStyles();    
     const idUserLogin = useContext(Data)._id;
+    const [moveIconm, setMoveIcon] = useState(0);
      return (
         <>  
             <Card  color='inherit' className={classes.connected}>
@@ -19,8 +20,16 @@ const ListFriend = ({search,data,setSearch}) => {
 
             <Card position='static' color='inherit' className={`${classes.connected}`}>
                 <div className={classes.find}>
-                    <TextField value={search} onChange={(e) => setSearch(e.target.value)} id="filled-basic" className={classes.search} label="Search"  variant="standard"/>
-                    <SearchIcon fontSize='large' className={classes.iconFind}/>
+                    <TextField 
+                        value={search} 
+                        onChange={(e) => {setSearch(e.target.value); setMoveIcon(prev => prev < 10 ? prev + 1 : 0)}} 
+                        onBlur={()=>setMoveIcon(0)}
+                        id="outlined-basic" 
+                        variant="outlined"  
+                        className={classes.search} 
+                        label="Search"
+                    />
+                    <SearchIcon fontSize='large' className={`${classes.iconFind}`} style={{transform: `rotate(0.${moveIconm}turn)`}}/>
                 </div>
                 <div className={classes.heading}>
                     <Typography variant="h6" gutterBottom >Add fiends</Typography>

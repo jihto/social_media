@@ -9,8 +9,7 @@ import { followUser, unFollowUser } from "api";
 import { memo } from "react";
 
 
-const NewFriend = ({user, isFollower, showfull }) =>{ 
-    // console.log(user);
+const NewFriend = ({user, isFollower, showfull }) =>{  
     let navigate = useNavigate();
     const classes = useStyles(); 
     const [addFriend,setAddFriend] = useState(isFollower);
@@ -29,7 +28,7 @@ const NewFriend = ({user, isFollower, showfull }) =>{
     return (  
         <Card className={classes.card} position='static' color='inherit'>
             <Button variant='contained' onClick={handleChange} className={classes.redirectUserUi}> 
-                { user.avatar === undefined 
+                { !user.avatar 
                     ? <Avatar alt="avatar" src={memories} className={classes.avatar} />
                     : <Avatar alt="avatar" src={`http://localhost:5000/images/${user.avatar}`} className={classes.avatar} />
                 }

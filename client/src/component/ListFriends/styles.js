@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { SlideshowOutlined } from '@material-ui/icons';
 import gsap from 'gsap';
 // import { random } from 'gsap/all';  
 export default makeStyles(() => ({
@@ -11,8 +12,8 @@ export default makeStyles(() => ({
     width: '90%',
   },
   search:{
-    margin: '3px 0 0 10%',
-    width: "76%"
+    margin: '2% 0 0 5%',
+    width: "90%"
   },
   connected:{
     marginBottom: '5%',
@@ -26,16 +27,27 @@ export default makeStyles(() => ({
   find:{
     display: 'flex',
     alignItems: 'center',
+    position:"relative",
+    transform:"all 0.8s"
   },
   iconFind:{
-    margin: '19px 10% 0 0'
+    position: 'absolute',
+    top: '30%',
+    right: '10%',
+    transform: "all 0.8s",
+      transform: "rotate(0)", 
+      transitionDelay: '2s',
   }, 
+  move:{
+      transform: "rotate(90deg)",  
+  },
+  stand:{
+  },
   '@keyframes MoveUpDown': {
     "0%" : { 
-      transform: "translateX(0)", 
+
     }, 
     "100%" : {
-      transform: "translateX(100%)", 
     }
   },
   showAllNewFriends:{ 

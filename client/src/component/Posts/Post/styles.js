@@ -2,18 +2,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import { styled } from "@mui/system";
 import {  Button } from '@material-ui/core';
 export default makeStyles({
-  media: {
-    height: '100%',
+  media: { 
+    height:"100%",
     width: '100%',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     transitionDuration: '3s',
     backgroundRepeat:' no-repeat', 
     backgroundSize: 'cover', 
-    backgroundPosition: 'center',
-    
+    backgroundPosition: 'center', 
     display: 'inline-block',
     scrollSnapAlign: 'start',
     scrollMarginLeft: '0',
+    position:'absolute', 
   },
   hold:{  
     height: '100%',
@@ -24,6 +24,7 @@ export default makeStyles({
     backgroundPosition: 'center',
     scrollSnapAlign: 'start',
     scrollMarginLeft: '0',
+    position:'absolute', 
   },
   card: {
     display: 'flex',
@@ -37,12 +38,14 @@ export default makeStyles({
     top: '20px',
     left: '20px',
     color: 'white',
+    zIndex:'60'
   },
   overlay2: {
     position: 'absolute',
     top: '20px',
     right: '20px',
     color: 'white',  
+    zIndex:'60'
   },
   details: {
     display: 'flex',
@@ -84,38 +87,58 @@ export default makeStyles({
   },
   boxCard:{
     height: '100%',
-    paddingTop: '60%',
+    // paddingTop: '60%',
     width: '100%',
     position: 'relative',
+    // display: 'flex',
+    // overflowX: 'visible',
+    // transitionProperty: 'transform',
+    // willChange: 'transform',
   },
-  scrollPost:{
-    display: 'flex',
+  scrollPost:{ 
+    // display: 'flex',
+    // width: '100%',
+    // height: '100%',
+    // position: 'absolute',
+    // top: 0,
+    // left: 0,
+    // flexDirection: 'column-reverse',
+    // flexWrap: 'wrap',
+    // overflowX:"scroll",
+    // scrollSnapType: 'x mandatory', 
+    
+    // '&::-webkit-scrollbar': {
+    //   height: '1px', 
+    // },
+    // '&::-webkit-scrollbar-thumb': {
+    //   background: 'white' 
+    // },
+    // '&::-webkit-scrollbar-track':{
+    //   background: 'black' 
+    // }, 
     width: '100%',
     height: '100%',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    flexDirection: 'column-reverse',
-    flexWrap: 'wrap',
-    overflowX:"scroll",
-    scrollSnapType: 'x mandatory', 
-    
-    '&::-webkit-scrollbar': {
-      height: '1px', 
-    },
-    '&::-webkit-scrollbar-thumb': {
-      background: 'white' 
-    },
-    '&::-webkit-scrollbar-track':{
-      background: 'black' 
-    }, 
+    paddingBottom: '60%',
+
   },
   scrollImage:{
-    color: 'white',
-    position: 'absolute',
-    bottom: 0,
-    left:' 45%',
-    zIndex: '10',
+    width: '100%',
+    height: '100%',
+    position:'absolute', 
+    transition: "all 0.8s", 
+    
+  },
+  bothButton:{
+    top: '45%',
+    zIndex:'20',
+    color:"white"
+  },
+  buttonNext:{
+    right:0,
+    position: 'absolute'
+  },
+  buttonPrev:{
+    left:0
   }
 });
 

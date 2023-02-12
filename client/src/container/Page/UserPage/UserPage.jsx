@@ -15,11 +15,12 @@ import { Container, Box, Avatar, Typography, Tab, Card, Grid, Tabs, Fab, Zoom, T
 import useStyles from './styles';
 import memories from 'images/memories.png';
 import MainMenu from "container/Menu/Menu"; 
-import AllPost from '../../../component/PostsOfUser/PostsOfUser';
+import PostsOfUser from '../../../component/PostsOfUser/PostsOfUser';
 import NoteList from "../../../component/NotesList/NoteList"; 
 import { fabs } from 'constants';
 import { isEmpty } from 'util/CheckObject';
 import { Alert } from "@mui/material";
+import { CustomButton } from "constants";
 
 function UserPage() {
     const classes = useStyles();
@@ -29,8 +30,7 @@ function UserPage() {
     const dataUser = useSelector(state => state.infoUser.user);   
     const dataPostsOfUser = useSelector((state) => state.posts.postsUser); 
     const dataNotesOfUser = useSelector(state => state.note.notesUser);
-    const savePosts = useSelector((state) => state.posts.savePosts).savePosts;
-
+    const savePosts = useSelector((state) => state.posts.savePosts).savePosts; 
     const result = useSelector(state => state.posts.result);
     const message = useSelector(state => state.posts.message); 
     const postdRef = useRef();  
@@ -115,7 +115,7 @@ function UserPage() {
                         </IconButton>
                     </Tooltip>
                     <Typography variant="h5" className={classes.name} style={{ flexGrow: 1}}>{dataUser.name }</Typography> 
-                    <Button 
+                    <CustomButton 
                         color="primary"
                         variant="outlined" 
                         className={classes.Inupt} 
@@ -125,14 +125,14 @@ function UserPage() {
                             ? "Setting" 
                             : follow ? "UnFollow" : "Follow" 
                         }
-                    </Button>
+                    </CustomButton>
                 </Card>
 
                 {/**------------------------About User ---------------------------------*/}
                 <Grid container justifyContent='space-between' alignItems='stretch' spacing={4}>
                     <Grid item xs={12} sm={3}>
                         <Card className={classes.Box} style={{marginTop:"5%"}}> 
-                            <Button className={`${classes.Inupt}`} variant="outlined" color="primary" onClick={()=>{navigate("/home")}}><KeyboardReturnIcon/>Back</Button> 
+                            <CustomButton className={`${classes.Inupt}`} variant="outlined" color="primary" onClick={()=>{navigate("/home")}}><KeyboardReturnIcon/>Back</CustomButton> 
                             <Divider style={{margin:"0 10%"}}/>
                             <div className={classes.details}>
                                 <Typography variant="h5">About: </Typography>
@@ -168,7 +168,7 @@ function UserPage() {
                             </Tabs> 
                             <hr/>
                             <TabPanel value = {value} index = {0}  >
-                                <AllPost 
+                                <PostsOfUser 
                                     value = {isUser ? "IsUser" : "NotUser"} 
                                     postsUser = {dataPostsOfUser} 
                                     handleShowMessage = {handleShowMessage} 
@@ -179,7 +179,7 @@ function UserPage() {
                                 <NoteList notesUser = {dataNotesOfUser} showCreateNote={showCreateNote} isUser={isUser}/> 
                             </TabPanel> 
                             <TabPanel value = {value} index = {2} > 
-                                <AllPost value={"SavePost"} postsUser={savePosts} isUser={isUser} ref ={postdRef}/>
+                                <PostsOfUser value={"SavePost"} postsUser={savePosts} isUser={isUser} ref ={postdRef}/>
                             </TabPanel> 
                         </Box>
                         
