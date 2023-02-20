@@ -89,21 +89,25 @@ class authUser{
       }
   }
 
-  Token(req,res,next){
+  Token = async(req,res,next) => {
     try{
       const {refreshToken,id, email} = req.body; 
-      if(refreshToken){
-          const token = jwt.sign({id,email},process.env.ACCESS_TOKEN_SECRET,
+      const infoUser = await User.findOne({_id:id}); 
+      if(infoUser && refreshToken){
+        const token = jwt.sign({ id, email},process.env.ACCESS_TOKEN_SECRET,
           {
-              algorithm: 'HS256',
-              expiresIn: process.env.ACCESS_TOKEN_LIFE,
-          });
-          // User.findByIdAndUpdate(_id,{ $set: { token: token,refreshToken: token }});
-          const data = {token,refreshToken:token}
-          res.status(200).json(data);      
+            algorithm: 'HS256',
+            expiresIn: process.env.REFRESH_TOKEN_LIFE,
+          }); 
+          await User.findByIdAndUpdate({_id:id},{ $set: { token: token,refreshToken: token }});
+          const data = {
+            token,
+            refreshToken:token
+          } 
+          res.status(200).json(data); 
       }
     } catch(err) {
-        return res.status(404).send('Invalid request')
+        return res.status(404).json({mesage: err})
     }
   } 
   changePassword = async (req,res,next) => {

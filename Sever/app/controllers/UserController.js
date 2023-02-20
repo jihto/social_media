@@ -31,7 +31,8 @@ class UserController{
         try {
             const { _id, type, content } = req.body; 
             const condition = `{${type}:${content}}`; 
-            const result = await Information.find({ _id }, {$set: condition}); 
+            console.log(condition);
+            // const result = await Information.find({ _id }, {$set: condition}); 
             res.status(200).json({ message: "Update Profile successful" })
         } catch (error) { 
             res.status(400).json({"message": `${error}`}); 
@@ -47,7 +48,7 @@ class UserController{
                     ]
                 }
                 :{ }    
-        await User.find(keyWord).find({ _id : { $ne : req.user.id }}).select("name email storyMessage following")
+        await User.find(keyWord).find({ _id : { $ne : req.user.id }}).select("name email storyMessage following avatar")
             .then(result => res.status(200).json(result))
             .catch(next) 
     } 
@@ -81,25 +82,7 @@ class UserController{
                 res.json("unFollow Successfully");
             })
             .catch(next);  
-    }
-    dataFollower(req,res,next){
-        const follower = User.findOne({_id:req.user.id})
-                            .populate({
-                                path:'follow',
-                                select: '_id',
-                                strictPopulate: false
-                            })
-                            .select("follow")
-        const allUser = User.find({})
-                            .select('name avatar')
-        Promise.all([follower,allUser])
-            .then(([dataFollower, allDataUser]) => { 
-                const allFollower = convertObjectToArray(dataFollower.follow,"_id");
-                const allUser = removeUserFromArray(allDataUser,req.user.id);
-                res.json({allFollower,allUser});
-            })
-            .catch(next);
-    }
+    } 
 }
 
 module.exports = new UserController;

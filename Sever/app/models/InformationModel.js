@@ -4,9 +4,10 @@ const Schema = mongoose.Schema;
 
 const InfofmationModel = new Schema({ 
     user: { type: mongoose.Schema.Types.ObjectId,ref: "User"},
-    workAt: {type: String, maxlength: 100,  default:"Work in..."},
-    location: { type: String, maxlength: 100,  default:"Live in..."},
-    education: { type: String, maxlength: 100, default:"Study in..."},
+    workAt: {type: String, maxlength: 100, },
+    location: { type: String, maxlength: 100,  },
+    education: { type: String, maxlength: 100, },
+    storyMessage: { type: String},
     isSingle: { type:Boolean, default:false },
     phoneNumber: {type: Number, maxlength: 15},
     mail:{ type:String, maxlength: 30 },

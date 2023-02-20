@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     name: { type: String, maxlength: 250},
     avatar: { type: String},
-    storyMessage: { type: String},
     createAt : {type:Date, default:Date.now },
     updateAt : {type:Date, default:Date.now },
     information: { type: mongoose.Schema.Types.ObjectId,ref: "Information" },

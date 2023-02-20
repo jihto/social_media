@@ -23,7 +23,10 @@ class PostController{
     allPostOfUser = async(req,res,next) =>{
         try {
             const id = req.params.id; 
-            const result = await Post.find({nameUser: id});
+            const result = await Post.find({nameUser: id}).populate({
+                path:'nameUser',
+                select: 'name avatar'
+            });
             res.status(200).json(result);
         } catch (error) {
             res.status(400)
@@ -79,16 +82,7 @@ class PostController{
         } catch (error) {
             res.status(500).json({message: "Delete fail"});
         }
-    }
-    strash(req,res,next){
-        Post.findDeleted()
-            .populate({
-                path:'nameUser',
-                select: 'name message'
-            })
-                .then(postDelete => res.render('posts/strash',{postDelete : mutipleMongooseToObject(postDelete)}))
-                .catch(error => console.log(error));
-    }
+    } 
     restore(req,res,next){
         Post.restore({ _id: req.params.id })
             .then(() => res.redirect('back'))
