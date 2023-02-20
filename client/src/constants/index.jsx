@@ -20,12 +20,16 @@ import { Button, CssBaseline} from "@material-ui/core";
 import Box from '@mui/material/Box';
 import { Zoom, Slide } from '@material-ui/core';
 import React from 'react';
+import { Collapse } from '@mui/material';
 
 export const TransitionZoom = React.forwardRef(function Transition(props, ref) {
     return <Zoom timeout={500} ref={ref} {...props} />;
 }); 
 export const TransitionSlide = React.forwardRef(function Transition(props, ref) {
     return <Slide timeout={500} ref={ref} {...props} />;
+});
+export const TransitionCollapse = React.forwardRef(function Transition(props, ref) {
+  return <Collapse timeout={500} ref={ref} {...props} />;
 });
 
 

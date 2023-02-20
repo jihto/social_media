@@ -22,7 +22,7 @@ label:{
     color: 'aqua',
 },
 formInput:{
-    width: '45%',
+    width: '100%%',
     color: 'aqua',
     margin: '0 4% 2% 0'
 },
@@ -63,7 +63,7 @@ verify:{
 },
 GroupButton:{
     display: 'grid',
-    height:' 100%',
+    height:' 100%', 
     alignContent: 'space-evenly',
 
 }

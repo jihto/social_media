@@ -10,7 +10,8 @@ import {useDispatch, useSelector} from 'react-redux';
 //Material Ui  
 import RemoveIcon from '@material-ui/icons/Remove'; 
 import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn'; 
-import { Container, Box, Avatar, Typography, Tab, Card, Grid, Tabs, Fab, Zoom, Tooltip, Divider, Button, IconButton  } from '@material-ui/core'; 
+import CreateIcon from '@material-ui/icons/Create'; 
+import { Container, Box, Avatar, Typography, Tab, Card, Grid, Tabs, Fab, Zoom, Tooltip, Divider, Button, IconButton, TextField  } from '@material-ui/core'; 
 //Other 
 import useStyles from './styles';
 import memories from 'images/memories.png';
@@ -43,7 +44,7 @@ function UserPage() {
     //value tabs
     const [value,setValue] = useState(0);  
     const [follow, setFollow] = useState(false); 
-
+    const [storyMess, setStoryMess] = useState( dataUser.storyMessage || "");
     const [showMessage, setShowMessage] = useState(false);
     
     //Number following 
@@ -110,17 +111,12 @@ function UserPage() {
             <Container >
                 <Card className={classes.flex}>  
                     <Tooltip title="Avatar settings" className={classes.avatar}>
-                        <IconButton onClick={()=>postdRef.current.showDialogPost({state:true,data:{img:[dataUser.avatar === undefined ? memories : dataUser.avatar ]}})}>
+                        <IconButton onClick={()=>postdRef.current.showDialogPost({state:true,data:{img:[!dataUser.avatar ? memories : dataUser.avatar ]}})}>
                             <Avatar style={{width:'60px',height:'60px'}} src={dataUser.avatar && `http://localhost:5000/images/${dataUser.avatar}`} /> 
                         </IconButton>
                     </Tooltip>
                     <Typography variant="h5" className={classes.name} style={{ flexGrow: 1}}>{dataUser.name }</Typography> 
-                    <CustomButton 
-                        color="primary"
-                        variant="outlined" 
-                        className={classes.Inupt} 
-                        onClick={()=> isUser ? handleChangeSetting() : handleFollow()} 
-                    >
+                    <CustomButton color="primary" variant="outlined" className={classes.Inupt} onClick={()=> isUser ? handleChangeSetting() : handleFollow()}>
                         { isUser
                             ? "Setting" 
                             : follow ? "UnFollow" : "Follow" 
@@ -133,11 +129,21 @@ function UserPage() {
                     <Grid item xs={12} sm={3}>
                         <Card className={classes.Box} style={{marginTop:"5%"}}> 
                             <CustomButton className={`${classes.Inupt}`} variant="outlined" color="primary" onClick={()=>{navigate("/home")}}><KeyboardReturnIcon/>Back</CustomButton> 
-                            <Divider style={{margin:"0 10%"}}/>
-                            <div className={classes.details}>
-                                <Typography variant="h5">About: </Typography>
-                            </div> 
-                            <Typography variant="body2"  className={classes.about} mt={2}> {dataUser.storyMessage}</Typography>
+                            <Divider style={{margin:"0 10%"}}/> 
+                            <Typography variant="h5"className={classes.details}>About: </Typography> 
+                            <div className={classes.storyMessage}>
+                                {
+                                dataUser.storyMessage
+                                ? <Typography variant="body2"  className={classes.about} mt={2}> {dataUser.storyMessage}</Typography>
+                                : <> 
+                                    <TextField id="storyMessage" placeholder="Add message..." onChange={(e) => setStoryMess(e.target.value)} value={storyMess}/> 
+                                    <label htmlFor="storyMessage"> 
+                                        <CreateIcon fontSize="small"/> 
+                                    </label> 
+                                </>
+                                }
+                            </div>
+                            
                             <Divider style={{margin:"0 10%"}}/>
                             <div className={classes.infor} >
                                 <div className={classes.about}>

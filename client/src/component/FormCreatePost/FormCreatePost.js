@@ -132,10 +132,12 @@ const FormCreatePost = ({data,create,onClosePost,handleShowMessage}) => {
                     </Paper> 
                     </Grid>
                     : <div className={classes.infoOfPost}>   
-                        <Box sx={{display: 'flex', alignItems:"center", gap: "15%",marginBottom:'15%', flexDirection: 'column'}}> 
-                            <Avatar src={`http://localhost:5000/images/${postData.dataUser.avatar}`}/>
+                        {postData.dataUser &&
+                            <Box sx={{display: 'flex', alignItems:"center", gap: "15%",marginBottom:'15%', flexDirection: 'column'}}> 
+                            <Avatar src={ `http://localhost:5000/images/${postData.dataUser.avatar}`}/>
                             <Typography variant='subtitle1' >{postData.dataUser.name}</Typography>
                         </Box>
+                        }
                         <Box sx={{display: 'flex', alignItems:"center",marginBottom:'15%', flexDirection: 'column'}}> 
                             <Typography variant="h6">{data.description}</Typography> 
                             <Typography variant="body2" > {moment(data.createdAt).fromNow()}</Typography> 

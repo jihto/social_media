@@ -15,14 +15,21 @@ import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import TurnedInIcon from '@material-ui/icons/TurnedIn'; 
 
+//
+
+import { useTheme } from '@mui/material/styles'; 
+import MobileStepper from '@mui/material/MobileStepper';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import SwipeableViews from 'react-swipeable-views';
+
 //other
 import { Data } from "App"; 
 import useStyles, { ButtonHide } from "./styles";
 import memories from 'images/memories.png' 
 import { Box, Button } from "@material-ui/core";
-
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@material-ui/icons";
+ 
 const Post = ({post,savePosts,id}) => {   
     const classes = useStyles();
     const data = useContext(Data);  
@@ -80,12 +87,23 @@ const Post = ({post,savePosts,id}) => {
         navigator.clipboard.writeText(`http://localhost:5000/images/${post._id}`); 
         setShowCopy(true)
     }  
-    const [prevNext, setPrevNext] = useState(0);
-    const handlePrevNext = (maxLength, isIncrease) =>{ 
-        isIncrease
-            ? setPrevNext(prev => prev < maxLength-1 ? prev + 1 : 0)
-            : setPrevNext(prev => prev > 0 ? prev - 1 : maxLength-1);
-    }
+
+    //
+    const theme = useTheme();
+    const [activeStep, setActiveStep] = useState(0);
+    const maxSteps = post.img.length;
+
+    const handleNext = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    };
+
+    const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
+
+    const handleStepChange = (step) => {
+        setActiveStep(step);
+    }; 
     return (
         <>   
             <Card className={classes.card} style={{borderRadius: '15px'}}> 
@@ -97,34 +115,66 @@ const Post = ({post,savePosts,id}) => {
                             <ButtonHide onClick={handleShowPost} style={{marginLeft:"10px"}}>Cancel</ButtonHide> 
                         </div>
                     </div>
-                    : <>
-                        <Box className={classes.boxCard}> 
-                            <Box className={classes.scrollPost}>
-                                { 
-                                    post.img.map((image, index) => ( 
-                                        <CardMedia 
-                                            key={index}
-                                            onMouseUp={(e)=>e.currentTarget.className = classes.media} 
-                                            onMouseDown={(e)=>e.currentTarget.className = classes.hold} 
-                                            className={classes.scrollImage} 
-                                            image={`http://localhost:5000/images/${image}`}  
-                                            title={post.title} 
-                                            style={{zIndex:`${prevNext === index ? 10 : 0}`}}
-                                        /> 
-                                    )) 
-                                } 
-                                {
-                                    post.img.length > 1 && 
-                                    <>
-                                        <Button className={`${classes.buttonPrev} ${classes.bothButton}`} onClick={()=>handlePrevNext(post.img.length, true)}>
-                                            <NavigateBeforeIcon fontSize="large"/>
+                    : <> 
+                        <Box sx={{ flexGrow: 1 }}>  
+                            <SwipeableViews
+                                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                                index={activeStep}
+                                onChangeIndex={handleStepChange}
+                                enableMouseEvents
+                            >
+                                {post.img.map((step, index) => (
+                                    <div key={index}>
+                                        {Math.abs(activeStep - index) <= 2 ? (
+                                        <Box
+                                            component="img"
+                                            sx={{
+                                                objectFit:"cover",
+                                                height: 500,
+                                                display: 'block', 
+                                                overflow: 'hidden',
+                                                width: '100%',
+                                            }}
+                                            src={`http://localhost:5000/images/${step}`} 
+                                        />
+                                        ) : null}
+                                    </div>
+                                ))} 
+                            </SwipeableViews>
+                            {
+                                post.img.length > 1 && 
+                                <MobileStepper
+                                    className={classes.buttonImage}
+                                    steps={maxSteps}
+                                    position="static"
+                                    sx={{background:'none'}}
+                                    activeStep={activeStep}
+                                    nextButton={
+                                        <Button
+                                            size="small"
+                                            onClick={handleNext}
+                                            disabled={activeStep === maxSteps - 1}
+                                        >
+                                            Next
+                                            {theme.direction === 'rtl' ? (
+                                            <KeyboardArrowLeft />
+                                            ) : (
+                                            <KeyboardArrowRight />
+                                            )}
                                         </Button>
-                                        <Button className={`${classes.buttonNext} ${classes.bothButton}`} onClick={()=>handlePrevNext(post.img.length, false)}>
-                                            <NavigateNextIcon fontSize="large"/>
-                                        </Button> 
-                                    </>
-                                }
-                                </Box>
+                                    }
+                                    backButton={
+                                        <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                                            {theme.direction === 'rtl' ? (
+                                            <KeyboardArrowRight />
+                                            ) : (
+                                            <KeyboardArrowLeft />
+                                            )}
+                                            Back
+                                        </Button>
+                                    }
+                                />
+                            }
                         </Box> 
                         <div className={classes.overlay}>
                             <Typography variant="h6" >{moment(post.createdAt).format('DD / MM / YYYY')}</Typography>

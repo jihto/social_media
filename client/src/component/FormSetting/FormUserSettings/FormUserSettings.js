@@ -21,6 +21,7 @@ const FormUserSettings = ({secret,imageAvatar}) =>{
             newPass:'',
             confirmPass:''
         });
+        
     const [verifyCode, setVerifyCode] = useState(""); 
     const [inputCode, setInputCode] = useState("");
     const [showError, setShowError] = useState("");
@@ -52,7 +53,9 @@ const FormUserSettings = ({secret,imageAvatar}) =>{
             //Correct code
             if(pass.oldPass !== pass.confirmPass)
                 setShowError("Password is not same");
-            else
+            else if(pass.confirmPass === "" || pass.oldPass === "")
+                setShowError("Password or confirm password is empty");
+            else   
                 setShowError("Update");
         }
         else
@@ -147,7 +150,7 @@ const FormUserSettings = ({secret,imageAvatar}) =>{
                                 <Typography className={classes.textRandom}>{verifyCode}</Typography> 
                                 <Button onClick={randomText}><CachedIcon/></Button>
                             </Box>  
-                            <div>{showError}</div> 
+                                <div style={{color:"red", margin:"2%"}}>{showError}</div> 
                             <Button onClick={handleSubmit} className={`${classes.formInput} ${classes.boxCard}`} variant="contained" type="submit">Accept</Button>
                         </Grid>
                     </Grid> 

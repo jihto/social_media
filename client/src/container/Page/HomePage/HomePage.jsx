@@ -10,8 +10,7 @@ import { useContext, useState, useEffect} from 'react';
 import { Data } from "App";  
 
 function HomePage() {
-  const [search,setSearch] = useState("");   
-  console.log("render,,,,");
+  const [search,setSearch] = useState("");  
   const dispatch = useDispatch() 
   const idUser = useContext(Data)._id;  
   const dataPosts = useSelector((state) => state.posts.listPosts);  

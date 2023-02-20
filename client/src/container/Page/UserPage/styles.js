@@ -25,7 +25,7 @@ export default makeStyles(() => ({
   details: {
     display: 'flex',
     justifyContent: 'space-between',
-    margin: '15px 31%'
+    margin: '15px 10%'
   },
   name:{
     fontFamily: 'inherit',
@@ -101,6 +101,11 @@ export default makeStyles(() => ({
     position: 'fixed',
     bottom: '3%',
     left: '2%',
+  },
+  storyMessage:{
+    margin: '10%',
+    display: 'flex',
+    justifyContent: 'center',
   }
 }));
 

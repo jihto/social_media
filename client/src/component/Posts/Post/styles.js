@@ -37,15 +37,13 @@ export default makeStyles({
     position: 'absolute',
     top: '20px',
     left: '20px',
-    color: 'white',
-    zIndex:'60'
+    color: 'white', 
   },
   overlay2: {
     position: 'absolute',
     top: '20px',
     right: '20px',
-    color: 'white',  
-    zIndex:'60'
+    color: 'white',   
   },
   details: {
     display: 'flex',
@@ -86,60 +84,26 @@ export default makeStyles({
     width:'100%'
   },
   boxCard:{
-    height: '100%',
-    // paddingTop: '60%',
+    height: '100%', 
     width: '100%',
-    position: 'relative',
-    // display: 'flex',
-    // overflowX: 'visible',
-    // transitionProperty: 'transform',
-    // willChange: 'transform',
+    position: 'relative', 
   },
-  scrollPost:{ 
-    // display: 'flex',
-    // width: '100%',
-    // height: '100%',
-    // position: 'absolute',
-    // top: 0,
-    // left: 0,
-    // flexDirection: 'column-reverse',
-    // flexWrap: 'wrap',
-    // overflowX:"scroll",
-    // scrollSnapType: 'x mandatory', 
-    
-    // '&::-webkit-scrollbar': {
-    //   height: '1px', 
-    // },
-    // '&::-webkit-scrollbar-thumb': {
-    //   background: 'white' 
-    // },
-    // '&::-webkit-scrollbar-track':{
-    //   background: 'black' 
-    // }, 
+  
+  buttonImage:{ 
+    position: 'absolute',
+    bottom: '24%',
+    background: 'none',
     width: '100%',
-    height: '100%',
-    paddingBottom: '60%',
-
-  },
-  scrollImage:{
-    width: '100%',
-    height: '100%',
-    position:'absolute', 
-    transition: "all 0.8s", 
-    
-  },
-  bothButton:{
-    top: '45%',
-    zIndex:'20',
-    color:"white"
-  },
-  buttonNext:{
-    right:0,
-    position: 'absolute'
-  },
-  buttonPrev:{
-    left:0
-  }
+    "& >button":{
+      color:"white"
+    },
+    "& .css-114p2tk-MuiMobileStepper-dot":{
+      backgroundColor:"gray",
+    },
+    "& .css-26w9jf-MuiMobileStepper-dot":{
+      backgroundColor:"white",
+    }
+  }, 
 });
 
 export const ButtonHide = styled(Button)({

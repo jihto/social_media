@@ -9,8 +9,7 @@ const initialState = {
 
 
 export default (state = initialState,action) => {
-    console.log(state.user);
-    switch(action.type){
+     switch(action.type){
         case 'FETCH_INFOR_USER':
             return  {...state, user: action.payload}; 
         case 'FETCH_PROFILE':

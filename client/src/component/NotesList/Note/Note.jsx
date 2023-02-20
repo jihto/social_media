@@ -152,7 +152,7 @@ const Note = ({note, isUser}) => {
             open={open}
             onClose={()=>setOpen(false)}
             TransitionComponent={TransitionZoom}
-            transitionDuration={{ enter: 500, exit: 500 }}
+            transitionDuration={{ enter: 600, exit: 600 }}
             aria-labelledby="responsive-dialog-title"
             PaperProps = {{ style:{ backgroundColor: '#bdc3c7', boxShadow: 'none',  borderRadius: ' 15px', margin: '2%'},}} 
         >
